@@ -2,10 +2,11 @@ package runner;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 public class RunBase {
 
@@ -13,39 +14,49 @@ public class RunBase {
 
     public enum Browser {CHROME, FIREFOX, EDGE}
 
-    public static WebDriver getDriver() {
+    // -Dheadless=true roda o Chrome sem abrir a janela (usado no CI)
+    private static final boolean HEADLESS = Boolean.parseBoolean(System.getProperty("headless", "false"));
 
+    public static WebDriver getDriver() {
         if (driver == null) {
             return getDriver(Browser.CHROME);
-        } else {
-            return driver;
         }
+        return driver;
     }
 
     public static WebDriver getDriver(Browser browser) {
 
-        if (driver !=  null) {
+        if (driver != null) {
             driver.quit();
         }
 
+        // O Selenium Manager baixa o driver certo para o navegador instalado
         switch (browser) {
             case CHROME:
-                driver = new ChromeDriver();
+                ChromeOptions options = new ChromeOptions();
+                if (HEADLESS) {
+                    options.addArguments("--headless=new", "--window-size=1280,1024");
+                }
+                driver = new ChromeDriver(options);
                 break;
             case FIREFOX:
                 driver = new FirefoxDriver();
                 break;
             case EDGE:
                 driver = new EdgeDriver();
+                break;
             default:
                 throw new IllegalArgumentException("Navegador não encontrado! Passe um navegador existente: Chrome, Firefox ou Edge.");
         }
 
-        if(driver != null){
-            driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-        }
-
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
         return driver;
     }
 
+    public static void quitDriver() {
+        if (driver != null) {
+            driver.quit();
+            driver = null;
+        }
+    }
 }

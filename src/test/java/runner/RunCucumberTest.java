@@ -1,24 +1,21 @@
 package runner;
 
-import cucumber.api.CucumberOptions;
-import cucumber.api.junit.Cucumber;
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
 import org.junit.AfterClass;
 import org.junit.runner.RunWith;
 
-
 @RunWith(Cucumber.class)
-    @CucumberOptions(
-            plugin = {"json:target/reports/cucumberReport.json", "html:target/reports/"},
-            features = "src/test/resources/features",
-            tags = "~@ignore",
-            glue = {"steps"}
-    )
+@CucumberOptions(
+        plugin = {"pretty", "json:target/reports/cucumberReport.json", "html:target/reports/cucumber.html"},
+        features = "src/test/resources/features",
+        tags = "not @ignore",
+        glue = {"steps"}
+)
+public class RunCucumberTest extends RunBase {
 
-    public class RunCucumberTest extends RunBase{
-
-        @AfterClass
-        public static void stop () {
-            driver.quit();
-        }
+    @AfterClass
+    public static void stop() {
+        quitDriver();
     }
-
+}

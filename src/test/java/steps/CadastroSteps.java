@@ -1,8 +1,8 @@
 package steps;
 
-import cucumber.api.java.pt.E;
-import cucumber.api.java.pt.Então;
-import cucumber.api.java.pt.Quando;
+import io.cucumber.java.pt.E;
+import io.cucumber.java.pt.Então;
+import io.cucumber.java.pt.Quando;
 import pages.CadastroPage;
 import runner.RunCucumberTest;
 
@@ -25,8 +25,8 @@ public class CadastroSteps extends RunCucumberTest {
         cadastroPage.visualizoMensagemDeCadastroRealizado();
     }
 
-    @Então("^clico no botão Ok$")
-    public void clico_no_botão_Ok() {
+    @Então("^clico no botão Ok e vejo meu nome logado$")
+    public void clico_no_botao_ok() {
         cadastroPage.clicarNoBotaoOK();
     }
-  }
+}
