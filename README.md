@@ -8,7 +8,7 @@ site de prática [automationpratice.com.br](https://automationpratice.com.br).
 
 ## Stack
 
-Java 17 · Selenium 4 · Cucumber 7 · JUnit 4 · Maven
+Java 17 · Selenium 4 · Cucumber 8 · JUnit 4 · Maven
 
 ## Cenário
 
